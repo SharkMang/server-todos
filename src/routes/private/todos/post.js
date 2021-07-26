@@ -1,4 +1,4 @@
-const Todos = require("../../../models/Todos");
+const Todos = require('../../../models/Todos');
 
 const post = async (ctx) => {
 
@@ -10,11 +10,10 @@ const post = async (ctx) => {
     .page(page)
     .limit(limit)
   
+  
+
   return ctx.body = {
-    todos,
-    page,
-    limit,
-    totalCount,
+   message: 'successfuly added todo'
   }
 }
 

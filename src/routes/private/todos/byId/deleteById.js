@@ -1,22 +1,18 @@
 const Todos = require('../../../../models/Todos');
 
-const put = async (ctx) => {
+const deleteById = async (ctx) => {
   const { userId } = ctx.header;
   const todoId = ctx.params.id;
-  const { newTodo } = ctx.request.body;
 
   await Todos.query()
     .where({ userId: id })
-    .findById(todoId)
-    .patch({
-      todo: newTodo
-    })
+    .deleteById(todoId)
 
   ctx.body = {
-    massege: 'Successfully updated'
+    massege: 'Successfully deleted'
   }
   
   return;
 }
 
-module.exports = put;
+module.exports = deleteById;

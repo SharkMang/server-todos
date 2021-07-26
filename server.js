@@ -1,9 +1,8 @@
-const PORT = 3000;
+const PORT = 3001;
 
 const koa = require('koa');
 const app = new koa();
 const routes = require('./src/routes');
-
 
 app.use(routes.routes());
 

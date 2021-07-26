@@ -19,5 +19,3 @@ const get = async (ctx) => {
 } 
 
 module.exports = get;
-
-// jwt koa-jwt

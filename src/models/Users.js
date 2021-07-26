@@ -20,7 +20,18 @@ class Users extends Model {
     };
   }
 
-  
+  // static get relationMappings() {
+  //   return {
+  //     children: {
+  //       relation: Model.HasManyRelation,
+  //       modelClass: Person,
+  //       join: {
+  //         from: 'persons.id',
+  //         to: 'persons.parentId'
+  //       }
+  //     }
+  //   };
+  // }
 }
 
 module.exports = Users

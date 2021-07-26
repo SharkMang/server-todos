@@ -33,6 +33,7 @@ const singUp = async (ctx) => {
     ctx.status = 200;
     ctx.body = {
       message: "Successfully sing up!",
+      token
     };
     
     return ctx;

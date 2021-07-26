@@ -1,7 +1,3 @@
-/**
- * 1. Validate email | password
- * 2. Return accessToken
- */
 const Users = require('../../models/Users');
 const bcrypt = require('bcrypt');
 

@@ -20,4 +20,4 @@ class Todos extends Model {
   }
 }
 
-module.exports = Todos
+module.exports = Todos;

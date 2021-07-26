@@ -1,9 +1,7 @@
 const { createToken, checkAndDeckodToken } = require("./koaJwt");
 
-
-
 const isAuthenticated = (req,res) => {
- console.log(res);
+ 
 };
 
 
