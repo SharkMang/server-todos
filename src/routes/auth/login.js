@@ -2,35 +2,29 @@
  * 1. Validate email | password
  * 2. Return accessToken
  */
-const getUserByUsername = require('../../utils');
 const Users = require('../../models/Users');
 const bcrypt = require('bcrypt');
-const secret = 'A very secret key';
 
-const jwt = require('koa-jwt');
+const createToken = require('../../utils')
 
 
 const login = async (ctx) => {
-  const { email } = ctx.request.body
+  const { email, password: userPassword } = ctx.request.body
 
   const user = await Users.query().findOne({ email });
   try {
     if (!user) {
       throw {}
     }
-  
+
     const {
-      password,
-      ...userInfoWithoutPassword
+      password, 
     } = user;
   
-    if (await bcrypt.compare(ctx.request.body.password, password)) {
+    if (await bcrypt.compare(userPassword, password)) {
       ctx.status = 200;
       ctx.body = {
-        token: jwt.sign({
-          data: userInfoWithoutPassword,
-          exp: Math.floor(Date.now() / 1000) - (60 * 60) 
-        }, secret),
+        token: createToken(email),
         message: "Successfully logged in!"
       }
       return ctx
@@ -46,7 +40,6 @@ const login = async (ctx) => {
 
     return ctx;
   }
- 
 }
-// bcrypt
+
 module.exports = login;

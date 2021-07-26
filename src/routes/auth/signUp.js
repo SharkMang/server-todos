@@ -6,7 +6,7 @@
 
 const Users = require('../../models/Users');
 const { knex } = require('../../models/Users');
-const getUserByUsername = require('../../utils');
+const createToken = require('../auth')
 
 const singUp = async (ctx) => {
   const { password, email, name, lastName } = ctx.request.body
@@ -23,15 +23,16 @@ const singUp = async (ctx) => {
 
   if (!user) {
 
-    
     password = await bcrypt.hash(password, 5);
+
+    const token = createToken(email);
+
     knex('users').insert({name, lastName, email, password})
-    //users.push(ctx.request.body);
 
 
     ctx.status = 200;
     ctx.body = {
-      message: "Successfully sing up!"
+      message: "Successfully sing up!",
     };
     
     return ctx;
@@ -41,8 +42,6 @@ const singUp = async (ctx) => {
   ctx.body = {
     error: "User exists"
   }
-
-  
 }
 
 module.exports = singUp;

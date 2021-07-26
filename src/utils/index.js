@@ -1,17 +1,15 @@
-const isAuthenticated = (ctx) => (console.log(1));
+const { createToken, checkAndDeckodToken } = require("./koaJwt");
 
-const  getUserByUsername = (username, users) => {
-  let user;
-  for (let i = 0; i < users.length; i++) {
-    user = users[i];
-    if (user.username === username) {
-      return user;
-    }
-  }
-  return null;
-}
+
+
+const isAuthenticated = (req,res) => {
+ console.log(res);
+};
+
+
 
 module.exports = {
-  getUserByUsername,
-  isAuthenticated
+  isAuthenticated,
+  createToken,
+  checkAndDeckodToken
 }
