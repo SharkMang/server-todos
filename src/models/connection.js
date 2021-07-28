@@ -1,7 +1,11 @@
 const { Model } = require('objection');
 const Knex = require('knex');
-const { default: config  } = require('../config');
+const config = require('../config');
 
 const knex = Knex(config.DB);
 
-module.exports = Model.knex(knex);
+const connection = async () => {
+  return Model.knex(knex)
+}
+
+module.exports = connection;

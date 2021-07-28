@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "migrate": "knex migrate:latest",
-    "make": "knex migrate:make"
+    "migrate": "npx knex migrate:latest",
+    "make": "npx knex migrate:make"
   },
   "author": "",
   "license": "ISC",

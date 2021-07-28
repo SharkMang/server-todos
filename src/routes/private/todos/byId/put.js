@@ -1,22 +1,21 @@
 const Todos = require('../../../../models/Todos');
 
 const put = async (ctx) => {
-  const { userId } = ctx.header;
+  const userId = ctx.state.user.date;
   const todoId = ctx.params.id;
-  const { newTodo } = ctx.request.body;
+  const updatesForTodo = ctx.request.body;
 
   await Todos.query()
-    .where({ userId: id })
+    .where({ userId })
     .findById(todoId)
-    .patch({
-      todo: newTodo
-    })
+    .patch(updatesForTodo);
 
   ctx.body = {
-    massege: 'Successfully updated'
+    massege: `Successfully updated ${JSON.stringify(await Todos.query().where({ userId }).findById(todoId))}`,
   }
   
   return;
 }
 
 module.exports = put;
+

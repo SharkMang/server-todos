@@ -1,26 +1,28 @@
 const Users = require('../../models/Users');
 const bcrypt = require('bcrypt');
 
-const createToken = require('../../utils')
+const { createToken } = require('../../utils')
 
 
 const login = async (ctx) => {
-  const { email, password: userPassword } = ctx.request.body
-
-  const user = await Users.query().findOne({ email });
+  const { email, password: reqPassword } = ctx.request.body;
+  
   try {
+    const user = await Users.query().findOne({ email });
+
     if (!user) {
       throw {}
     }
 
     const {
-      password, 
+      password, id
     } = user;
   
-    if (await bcrypt.compare(userPassword, password)) {
+    if (await bcrypt.compare(reqPassword, password)) {
       ctx.status = 200;
+      const token = await createToken(id);
       ctx.body = {
-        token: createToken(email),
+        token ,
         message: "Successfully logged in!"
       }
       return ctx

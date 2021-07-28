@@ -1,4 +1,5 @@
 const { Model } = require('objection');
+const Todos = require('./Todos');
 
 class Users extends Model {
   static get tableName() {
@@ -20,18 +21,18 @@ class Users extends Model {
     };
   }
 
-  // static get relationMappings() {
-  //   return {
-  //     children: {
-  //       relation: Model.HasManyRelation,
-  //       modelClass: Person,
-  //       join: {
-  //         from: 'persons.id',
-  //         to: 'persons.parentId'
-  //       }
-  //     }
-  //   };
-  // }
+  static get relationMappings() {
+    return {
+      todos: {
+        relation: Model.HasManyRelation,
+        modelClass: Todos,
+        join: {
+          from: 'users.id',
+          to: 'todos.userId'
+        }
+      }
+    }
+  };
 }
 
 module.exports = Users

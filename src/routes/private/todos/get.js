@@ -1,21 +1,29 @@
 const Todos = require("../../../models/Todos");
 
 const get = async (ctx) => {
-  const { userId } = ctx.header;
+  const userId = ctx.state.user.date;
+  let { page = 0, limit = 1000 } = ctx.query;
+  
 
-  const { page = 0, limit = 1000 } = ctx.param
+  page = parseInt(page);
+  limit = parseInt(limit);
 
   const todos = await Todos.query()
-    .where({ userId: id })
-    .page(page)
-    .limit(limit)
+    .where({ userId })
+    // .page(page)
+    // .limit(limit)
+
+  const countTodos = await Todos.query().where({userId}).count('isChecked');
   
-  return ctx.body = {
+  ctx.status = 200;
+  ctx.body = {
+    countTodos,
     todos,
     page,
     limit,
-    totalCount,
-  }
+  };
+
+  return ctx;
 } 
 
 module.exports = get;

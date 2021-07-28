@@ -1,13 +1,5 @@
-const { createToken, checkAndDeckodToken } = require("./koaJwt");
-
-const isAuthenticated = (req,res) => {
- 
-};
-
-
+const createToken = require("./createJWToken");
 
 module.exports = {
-  isAuthenticated,
-  createToken,
-  checkAndDeckodToken
+  createToken
 }

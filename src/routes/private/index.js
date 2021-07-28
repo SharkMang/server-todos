@@ -1,9 +1,12 @@
 const Router = require('koa-router');
 const router = new Router();
 const todos = require('./todos');
-const { isAuthenticated } = require('../../utils')
 
+const { secretKey } = require('../../config');
+const jwt = require('koa-jwt')
 
-router.use('/todos',/* isAuthenticated,*/ todos.routes());
+router.use(jwt({ secret:  secretKey}));
+
+router.use('/todos', todos.routes());
 
 module.exports = router;
