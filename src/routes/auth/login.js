@@ -1,42 +1,38 @@
 const Users = require('../../models/Users');
 const bcrypt = require('bcrypt');
+const assert = require('assert');
 
-const { createToken } = require('../../utils')
-
+const { createToken, resolve, checkValidLoginUser } = require('../../utils');
 
 const login = async (ctx) => {
   const { email, password: reqPassword } = ctx.request.body;
   
+  const notValidUser = await checkValidLoginUser({ password: reqPassword, email });
+
   try {
-    const user = await Users.query().findOne({ email });
-
-    if (!user) {
-      throw {}
-    }
-
-    const {
-      password, id
-    } = user;
+    if (notValidUser) throw{}
   
-    if (await bcrypt.compare(reqPassword, password)) {
-      ctx.status = 200;
-      const token = await createToken(id);
-      ctx.body = {
-        token ,
+    const user = await Users.query().findOne({ email });
+    
+    assert(user)
+
+    const { password, id } = user;
+    const isPasswordCorrect = await bcrypt.compare(reqPassword, password)
+
+    if (isPasswordCorrect) {
+
+      const body = {
+        token: await createToken(id),
+        user: Users.format(user),
         message: "Successfully logged in!"
       }
-      return ctx
+
+      return resolve(ctx, body);
     }
   
     throw {}
   } catch (error) {
-    console.log('error', error)
-    ctx.status = 401;
-    ctx.body = {
-      error: "Authentication failed"
-    }
-
-    return ctx;
+    return ctx.throw(400, notValidUser.join(' ') || 'Not authorizated')
   }
 }
 

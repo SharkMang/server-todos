@@ -1,14 +1,11 @@
 const Router = require('koa-router');
-const router = new Router();
-const login = require('./login');
-const singUp = require('./signUp');
 
-router.get('/', (ctx) => {
-  ctx.body = 'Auth'
-});
+const login = require('./login');
+const singup = require('./signup');
+
+const router = new Router();
 
 router.post('/login', login);
-
-router.post('/singUp', singUp);
+router.post('/singup', singup);
 
 module.exports = router;

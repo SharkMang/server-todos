@@ -1,11 +1,11 @@
 const Router = require('koa-router');
 
 const put = require('./put');
-const deleteById = require('./delete');
+const deleteByStatus = require('./delete');
 
 const router = new Router();
 
-router.put('/:id', put);
-router.delete('/:id', deleteById);
+router.put('/', put);
+router.delete('/', deleteByStatus);
 
 module.exports = router;

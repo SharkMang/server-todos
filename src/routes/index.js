@@ -1,17 +1,25 @@
 const Router = require('koa-router');
-const router = new Router();
+const bodyParser = require('koa-bodyparser');
 const auth = require('./auth');
 const private = require('./private');
 
-const bodyParser = require('koa-bodyparser');
+const { isAuthenticated, errorsHandler } = require('../utils');
+
+const router = new Router();
+
 router.use(bodyParser());
+router.use(errorsHandler);
 
 
-router.get('/', (ctx) => {
-  ctx.body = 'LogIn';
-});
+
+router.get('/', 
+  () => ctx.body = {
+    massege: 'Test'
+  }
+)
+
 
 router.use('/auth', auth.routes());
-router.use('/private', private.routes())
+router.use('/private', isAuthenticated(), private.routes())
 
 module.exports = router;

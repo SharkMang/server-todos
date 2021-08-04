@@ -9,7 +9,7 @@ class Users extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['id', 'name', 'lastName', 'email'],
+      required: [ 'name', 'lastName', 'email'],
 
       properties: {
         id: { type: 'integer', unique: true },
@@ -33,6 +33,15 @@ class Users extends Model {
       }
     }
   };
+
+  static format(user) {
+    return {
+      id: user.id,
+      name: user.name,
+      lastName: user.lastName,
+      email: user.email
+    }
+  }
 }
 
 module.exports = Users

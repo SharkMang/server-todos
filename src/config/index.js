@@ -1,7 +1,5 @@
-const DB = require('./todosDB');
-const secretKey = require('./secretKey');
+const DB = require('./DB');
 
 module.exports = {
   DB,
-  secretKey
 };

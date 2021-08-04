@@ -1,20 +1,32 @@
 const Todos = require('../../../../models/Todos');
+const { isValidChangesForTodo, resolve } = require('../../../../utils');
 
 const put = async (ctx) => {
-  const userId = ctx.state.user.date;
+  const { userId } = ctx.state.user;
   const todoId = ctx.params.id;
-  const updatesForTodo = ctx.request.body;
+  const updatesForTodo = ctx.request.body; 
 
-  await Todos.query()
-    .where({ userId })
-    .findById(todoId)
-    .patch(updatesForTodo);
 
-  ctx.body = {
-    massege: `Successfully updated ${JSON.stringify(await Todos.query().where({ userId }).findById(todoId))}`,
+  try{
+    if (!isValidChangesForTodo(updatesForTodo)) throw{}
+
+    await Todos.query()
+      .where({ userId })
+      .findById(todoId)
+      .patch(updatesForTodo);
+
+    const todos = await Todos.query().where({ userId });
+    
+    const body = {
+      massege: `Successfully updated!`,
+      list: todos
+    };
+  
+    return resolve(ctx, body);
+  } catch(err) {
+    return ctx.throw(401, `Not valid change ${JSON.stringify(updatesForTodo)}`)
   }
   
-  return;
 }
 
 module.exports = put;

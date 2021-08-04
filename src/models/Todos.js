@@ -9,14 +9,13 @@ class Todos extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['userId', 'id', 'nameTodo', 'isChecked', 'editing'],
+      required: ['userId', 'name', 'status'],
 
       properties: {
-        userId: { type: 'integer' }, 
-        id: { type: 'integer' },
-        nameTodo: { type: 'string' },
-        isChecked: { type: 'boolean' },
-        editing: { type: 'boolean' }
+        userId: { type: 'integer', unique: true }, 
+        id: { type: 'integer', unique: true },
+        name: { type: 'string' },
+        status: { type: 'string' },
       }
     };
   }

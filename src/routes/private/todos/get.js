@@ -1,29 +1,39 @@
 const Todos = require("../../../models/Todos");
+const { resolve, TODOS_STATUS } = require('../../../utils')
 
 const get = async (ctx) => {
-  const userId = ctx.state.user.date;
-  let { page = 0, limit = 1000 } = ctx.query;
-  
+  const { userId } = ctx.state.user;
+  const { page = 0, limit = 6, status } = ctx.query;
 
-  page = parseInt(page);
-  limit = parseInt(limit);
-
-  const todos = await Todos.query()
+  const query = Todos.query()
     .where({ userId })
-    // .page(page)
-    // .limit(limit)
+    .page(parseInt(page) - 1, parseInt(limit));
 
-  const countTodos = await Todos.query().where({userId}).count('isChecked');
-  
-  ctx.status = 200;
-  ctx.body = {
-    countTodos,
-    todos,
-    page,
-    limit,
-  };
+  if (status === TODOS_STATUS.COMPLETED || status === TODOS_STATUS.INCOMPLETED) {
+    query.where({ status })
+  } else if (status === TODOS_STATUS.ALL) {
 
-  return ctx;
+    const count = await Todos.query().where({ userId }).then((i) => { 
+      let active = 0;
+      let completed = 0;
+      i.forEach(t => {
+        t.status === TODOS_STATUS.COMPLETED? completed++ : active++
+      })
+      return { active, completed }
+    });
+
+    const todos = await query;
+
+    const body = {
+      page,
+      limit,
+      count,
+      list: todos, 
+    };
+
+    return resolve(ctx, body);
+  }
+  return ctx.throw(401, 'Not valid status');
 } 
 
 module.exports = get;
