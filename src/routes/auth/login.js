@@ -8,7 +8,7 @@ const login = async (ctx) => {
   const { email, password: reqPassword } = ctx.request.body;
   
   const notValidUser = await checkValidLoginUser({ password: reqPassword, email });
-
+  
   try {
     if (notValidUser) throw{}
   
@@ -32,7 +32,7 @@ const login = async (ctx) => {
   
     throw {}
   } catch (error) {
-    return ctx.throw(400, notValidUser.join(' ') || 'Not authorizated')
+    return ctx.throw(400, notValidUser || 'Not authorizated')
   }
 }
 

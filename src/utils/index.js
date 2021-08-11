@@ -8,7 +8,7 @@ const {
   isValidName, 
   isValidStatus 
 } = require('./validation');
-const TODOS_STATUS = require('./constance');
+const { TODOS_STATUS, ITEMS_PER_PAGE } = require('./constance');
 
 module.exports = {
   createToken,
@@ -20,5 +20,6 @@ module.exports = {
   isValidChangesForTodo,
   isValidName,
   isValidStatus,
-  TODOS_STATUS
+  TODOS_STATUS,
+  ITEMS_PER_PAGE
 }

@@ -36,7 +36,6 @@ class Users extends Model {
 
   static format(user) {
     return {
-      id: user.id,
       name: user.name,
       lastName: user.lastName,
       email: user.email

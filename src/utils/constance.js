@@ -4,4 +4,9 @@ const TODOS_STATUS = {
   ALL: 'all'
 }
 
-module.exports = TODOS_STATUS;
+const ITEMS_PER_PAGE = 20;
+
+module.exports = { 
+  TODOS_STATUS,
+  ITEMS_PER_PAGE
+};

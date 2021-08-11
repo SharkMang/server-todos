@@ -1,10 +1,10 @@
 const Users = require('../../models/Users');
 const bcrypt = require('bcrypt')
-const { checkValidSingupUser, resolve } = require('../../utils');
+const { checkValidSingupUser, resolve } = require('../../utils')
 
 const singup = async (ctx) => {
   const { password, email, name, lastName } = ctx.request.body;
-
+  
   const notValidUser = await checkValidSingupUser({ password, email, name, lastName });
 
   if (notValidUser) {
@@ -29,8 +29,9 @@ const singup = async (ctx) => {
       };
     
       return resolve(ctx, body);
+    } else {
+      return ctx.throw(400, "Email not valid")
     }
-    return ctx.throw(400, "Email not valid")
   }
 }
 

@@ -10,15 +10,6 @@ const router = new Router();
 router.use(bodyParser());
 router.use(errorsHandler);
 
-
-
-router.get('/', 
-  () => ctx.body = {
-    massege: 'Test'
-  }
-)
-
-
 router.use('/auth', auth.routes());
 router.use('/private', isAuthenticated(), private.routes())
 

@@ -1,24 +1,53 @@
 const Todos = require("../../../../models/Todos");
-const { resolve, isValidStatus } = require('../../../../utils')
+const { resolve, isValidStatus, TODOS_STATUS, ITEMS_PER_PAGE } = require('../../../../utils')
 
 const deleteByStatus = async (ctx) => {
   const { userId } = ctx.state.user;
-  const status = ctx.query.status;
+  const {
+    page = 1,
+    limit = ITEMS_PER_PAGE,
+    status = TODOS_STATUS.ALL,
+    delStatus
+  } = ctx.query
   
-  const query = Todos.query().where({ userId });
-
   try{
-    if (isValidStatus(status)) {
-      await query.where({ status }).del()
+    if (isValidStatus(delStatus) && delStatus !== TODOS_STATUS.ALL) {
+      await Todos.query()
+        .where({ userId, status: delStatus })
+        .del()
     } else {
       throw{}
     }
   
-    const todos = await Todos.query().where({ userId })
-    
+    const query = Todos.query()
+      .where({ userId })
+      .select('id','name','status')
+      .orderBy('id')
+      .page(parseInt(page) - 1, parseInt(limit));
+
+    if (status !== TODOS_STATUS.ALL) {
+      query.where({ status })
+    }
+
+    const todos = await query;
+
+    const count = await Todos.query().where({ userId }).then((i) => { 
+      let active = 0;
+      let completed = 0;
+      let total = i.length;
+      i.forEach(t => {
+        t.status === TODOS_STATUS.COMPLETED? completed++ : active++
+      })
+      return { active, completed, total }
+    });
+      
     const body = {
-      message: `Successfully deleted todos with ${status} status`,
+      message: `Successfully deleted todos with ${delStatus} status`,
       list: todos, 
+      status,
+      count,
+      page: parseInt(page),
+      limit: parseInt(limit),
     };
   
     return resolve(ctx, body);

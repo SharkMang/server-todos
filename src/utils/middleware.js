@@ -9,6 +9,7 @@ const errorsHandler = async (ctx, next) => {
   } catch(e) {
     ctx.status = e.status || 500;
     ctx.body = { error: e.message || 'Internal server Error.' }
+    return ctx
   }
 };
 

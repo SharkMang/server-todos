@@ -1,6 +1,6 @@
 const validate = require("validate.js");
 
-const TODOS_STATUS = require('./constance');
+const { TODOS_STATUS } = require('./constance');
 
 validate.options = {format: "flat"};
 
@@ -79,7 +79,7 @@ const isValidChangesForTodo = (changes) => {
 
 const isValidName = (str) => (str && (str.search(/[^A-Za-z\s]/) == -1));
 
-const isValidStatus = (status) => (status === TODOS_STATUS.COMPLETED || status === TODOS_STATUS.INCOMPLETED);
+const isValidStatus = (status) => (status === TODOS_STATUS.COMPLETED || status === TODOS_STATUS.INCOMPLETED || status === TODOS_STATUS.ALL);
 
 module.exports = { 
   checkValidSingupUser,
