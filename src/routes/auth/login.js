@@ -1,12 +1,13 @@
-const Users = require('../../models/Users');
+const { Users }  = require('../../models');
 const bcrypt = require('bcrypt');
 const assert = require('assert');
 
-const { createToken, resolve, checkValidLoginUser } = require('../../utils');
+const { resolve, checkValidLoginUser } = require('../../utils');
+const { createToken, createRefreshToken } = require('../../services/auth')
 
 const login = async (ctx) => {
   const { email, password: reqPassword } = ctx.request.body;
-  
+
   const notValidUser = await checkValidLoginUser({ password: reqPassword, email });
   
   try {
@@ -15,14 +16,15 @@ const login = async (ctx) => {
     const user = await Users.query().findOne({ email });
     
     assert(user)
-
+    
     const { password, id } = user;
     const isPasswordCorrect = await bcrypt.compare(reqPassword, password)
 
     if (isPasswordCorrect) {
-
+      
       const body = {
         token: await createToken(id),
+        refreshToken: await createRefreshToken(id),
         user: Users.format(user),
         message: "Successfully logged in!"
       }
@@ -32,7 +34,7 @@ const login = async (ctx) => {
   
     throw {}
   } catch (error) {
-    return ctx.throw(400, notValidUser || 'Not authorizated')
+    return ctx.throw(401, notValidUser || 'Not authorizated')
   }
 }
 

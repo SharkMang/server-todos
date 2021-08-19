@@ -1,6 +1,8 @@
-const Users = require('../../models/Users');
+const { Users } = require('../../models');
 const bcrypt = require('bcrypt')
+
 const { checkValidSingupUser, resolve } = require('../../utils')
+const { createRefreshToken } = require('../../services/auth')
 
 const singup = async (ctx) => {
   const { password, email, name, lastName } = ctx.request.body;
@@ -24,13 +26,17 @@ const singup = async (ctx) => {
         password: passwordHash
       });
 
+      const { id: userId } = await Users.query().where({ email })
+
+      await createRefreshToken(userId)
+
       const body = {
         message: "Successfully sing up!",
       };
     
       return resolve(ctx, body);
     } else {
-      return ctx.throw(400, "Email not valid")
+      return ctx.throw(401, "Email not valid")
     }
   }
 }

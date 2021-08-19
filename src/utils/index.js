@@ -1,6 +1,5 @@
-const createToken = require("./createJWToken");
 const { isAuthenticated, errorsHandler } = require('./middleware');
-const { resolve } = require('./composeAnswer');
+const { resolve } = require('./resolve');
 const { 
   checkValidLoginUser, 
   checkValidSingupUser, 
@@ -8,10 +7,8 @@ const {
   isValidName, 
   isValidStatus 
 } = require('./validation');
-const { TODOS_STATUS, ITEMS_PER_PAGE } = require('./constance');
 
 module.exports = {
-  createToken,
   isAuthenticated,
   errorsHandler,
   resolve,
@@ -19,7 +16,5 @@ module.exports = {
   checkValidLoginUser,
   isValidChangesForTodo,
   isValidName,
-  isValidStatus,
-  TODOS_STATUS,
-  ITEMS_PER_PAGE
+  isValidStatus
 }

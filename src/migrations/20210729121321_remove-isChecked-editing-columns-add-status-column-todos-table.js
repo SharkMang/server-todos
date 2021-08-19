@@ -37,8 +37,9 @@ exports.down = async function(knex) {
       knex('todos')
         .where({ id })
         .update({ 
-          isChecked : status === TODOS_STATUS.COMPLETED ? true : false,
-          editing : false })
+          isChecked: status === TODOS_STATUS.COMPLETED,
+          editing: false 
+        })
     )
   )
 

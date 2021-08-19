@@ -1,6 +1,8 @@
+const database = process.env.DATABASE
+
 const DB = {
   client: 'pg',
-  connection: 'postgres://postgres:postgres@localhost:5432/my_todo_list',
+  connection: database,
   migrations: {
     directory: './src/migrations'
   }

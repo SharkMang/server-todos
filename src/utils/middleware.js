@@ -1,5 +1,5 @@
 const jwt = require('koa-jwt');
-const secretKey = process.env.AUTH_SECRET_KEY;
+const { secretKey } = require('../config')
 
 const isAuthenticated = (secret = secretKey) => jwt({ secret  });
 

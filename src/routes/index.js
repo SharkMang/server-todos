@@ -7,10 +7,10 @@ const { isAuthenticated, errorsHandler } = require('../utils');
 
 const router = new Router();
 
-router.use(bodyParser());
-router.use(errorsHandler);
+router.use(bodyParser())
+router.use(errorsHandler)
 
-router.use('/auth', auth.routes());
+router.use('/auth', auth.routes())
 router.use('/private', isAuthenticated(), private.routes())
 
 module.exports = router;

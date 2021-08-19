@@ -6,7 +6,10 @@ const TODOS_STATUS = {
 
 const ITEMS_PER_PAGE = 20;
 
+const DEFAULT_PAGE = 0;
+
 module.exports = { 
   TODOS_STATUS,
-  ITEMS_PER_PAGE
+  ITEMS_PER_PAGE,
+  DEFAULT_PAGE
 };

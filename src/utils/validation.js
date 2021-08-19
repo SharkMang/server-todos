@@ -1,6 +1,6 @@
 const validate = require("validate.js");
 
-const { TODOS_STATUS } = require('./constance');
+const { TODOS_STATUS } = require('../constants');
 
 validate.options = {format: "flat"};
 
@@ -64,22 +64,23 @@ const checkValidLoginUser = ({ email, password }) => {
   return validate({email, password}, constraints)
 }
 
-const isValidChangesForTodo = (changes) => {
-  const whatToChange = Object.keys(changes)[0];
-  const valueOfChange = Object.values(changes)[0];
-  
-  if (whatToChange === 'name') {
-    return isValidName(valueOfChange)
-  } else if (whatToChange === 'status') {
-    return isValidStatus(valueOfChange)
+const isValidChangesForTodo = (chenges) => {
+  if (chenges.name) {
+    return isValidName(chenges.name)
+  } else if (chenges.status) {
+    return isValidStatus(chenges.status)
   }
-
+  // if (changes.name || changes.status) {
+  //   return isValidName(chenges.name) || isValidStatus(changes.status)
+  // }
   return false;
 }
 
-const isValidName = (str) => (str && (str.search(/[^A-Za-z\s]/) == -1));
+const isValidName = (str) => (str && (str.search(/[^A-Za-z\s]/) === -1));
 
-const isValidStatus = (status) => (status === TODOS_STATUS.COMPLETED || status === TODOS_STATUS.INCOMPLETED || status === TODOS_STATUS.ALL);
+/// Сделать нормальную валидацию для статусов
+// const isValidStatus = (status) => (TODOS_STATUS.COMPLETED === status || TODOS_STATUS.INCOMPLETED === status || TODOS_STATUS.ALL === status);
+const isValidStatus = (status) => (Object.values(TODOS_STATUS).includes(status))
 
 module.exports = { 
   checkValidSingupUser,
